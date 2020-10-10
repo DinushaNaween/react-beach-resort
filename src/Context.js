@@ -24,8 +24,11 @@ class RoomProvider extends Component {
   getData = async() => {
     try {
       let response = await Client.getEntries({
-        content_type: 'beachResortProject'
+        content_type: 'beachResortProject',
+        order: 'fields.type'
       });
+
+      console.log(response);
 
       let rooms = this.formatData(response.items);
       let featuredRooms = rooms.filter(room => room.featured === true);
@@ -34,7 +37,6 @@ class RoomProvider extends Component {
       let maxPrice = Math.max(...rooms.map(room => room.price));
       let maxSize = Math.max(...rooms.map(room => room.size));
       let minDeluxRoomPrice = Math.min(...deluxRooms.map(room => room.price));
-      console.log(minDeluxRoomPrice);
 
       this.setState({
         rooms,
