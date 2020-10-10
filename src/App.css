@@ -472,6 +472,9 @@ h6 {
   grid-row-gap: 2rem;
   grid-column-gap: 40px;
 }
+.filter-option {
+  text-transform: capitalize;
+}
 .form-group {
   text-transform: capitalize;
 }

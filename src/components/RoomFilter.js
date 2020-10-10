@@ -7,6 +7,10 @@ const getUnique = (item, value) => {
   return [...new Set(item.map(item => item[value]))]
 }
 
+const wordCapitalize = (word) => {
+  return word.charAt(0).toUpperCase() + word.slice(1);
+}
+
 export default function RoomFilter({ rooms }) {
 
   const context = useContext(RoomContext);
@@ -24,16 +28,26 @@ export default function RoomFilter({ rooms }) {
   } = context;
 
   let types = getUnique(rooms, 'type');
-  types = ['all', ...types];
+  types = ['All', ...types];
   types = types.map((item, index) => {
     return (
-      <option value={item} key={index}>
-        {item}
+      <option value={item} key={index} className='filter-option'>
+        {wordCapitalize(item)}
       </option>
     );
   });
 
   let people = getUnique(rooms, 'capacity');
+  people = people.map(item => {
+    return parseInt(item);
+  })
+
+  people.sort(function(item1, item2) {
+    if (item1 > item2) return 1;
+    if (item1 < item2) return -1;
+    return 0;
+  });
+
   people = people.map((item, index) => {
     return <option key={index} value={item}>{item}</option>
   })

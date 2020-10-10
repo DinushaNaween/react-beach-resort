@@ -9,11 +9,12 @@ class RoomProvider extends Component {
     sortedRooms: [],
     featuredRooms: [],
     loading: true,
-    type: 'all',
+    type: 'All',
     capacity: 1,
     price: 0,
     minPrice: 0,
     maxPrice: 0,
+    minDeluxRoomPrice: 0,
     minSize: 0,
     maxSize: 0,
     breakfast: false,
@@ -28,9 +29,12 @@ class RoomProvider extends Component {
 
       let rooms = this.formatData(response.items);
       let featuredRooms = rooms.filter(room => room.featured === true);
+      let deluxRooms = rooms.filter(room => room.name.includes('delux') === true);
 
       let maxPrice = Math.max(...rooms.map(room => room.price));
       let maxSize = Math.max(...rooms.map(room => room.size));
+      let minDeluxRoomPrice = Math.min(...deluxRooms.map(room => room.price));
+      console.log(minDeluxRoomPrice);
 
       this.setState({
         rooms,
@@ -39,6 +43,7 @@ class RoomProvider extends Component {
         loading: false,
         price: maxPrice,
         maxPrice,
+        minDeluxRoomPrice,
         maxSize
       });
     } catch (error) {
@@ -95,7 +100,7 @@ class RoomProvider extends Component {
     } = this.state;
 
     let tempRooms = [...rooms];
-    if (type !== 'all') {
+    if (type !== 'All') {
       tempRooms = tempRooms.filter(room => room.type === type);
     }
 
